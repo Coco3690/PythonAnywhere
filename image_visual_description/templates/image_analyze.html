@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Analyze</title>
+    <style>
+        #uploadedImage {
+            max-width: 600px; /* 最大宽度 */
+            max-height: 500px; /* 最大高度 */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image" accept="image/*" id="imageInput">
+        <button type="submit">Upload and Analyze</button>
+    </form>
+    <div id="resultDiv"></div>
+    <img id="uploadedImage" src="#" style="display: none;">
+    <div id="imageContainer" style="display: none;"></div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const uploadedImage = document.getElementById('uploadedImage');
+        const imageContainer = document.getElementById('imageContainer');
+
+        // 监听 input 的 change 事件
+        imageInput.addEventListener('change', (event) => {
+            const imageFile = event.target.files[0];
+            if (imageFile) {
+                const objectURL = URL.createObjectURL(imageFile);
+                uploadedImage.src = objectURL;
+                uploadedImage.style.display = 'block';
+                imageContainer.style.display = 'block';
+            }
+        });
+
+        document.querySelector('form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const resultDiv = document.getElementById('resultDiv');
+
+            try {
+                console.log('Sending request to server...'); // 记录开始发送请求
+                const response = await fetch('{% url "convert_view" %}', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Received response from server:', response); // 记录收到的响应
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Received data from server:', data); // 记录收到的数据
+                    resultDiv.textContent = data.description;
+                    resultDiv.style.color = 'green';
+                } else {
+                    console.log('Request failed with status:', response.status); // 记录请求失败的状态码
+                    resultDiv.textContent = 'Error occurred while processing the request.';
+                    resultDiv.style.color = 'red';
+                }
+            } catch (error) {
+                console.log('An error occurred:', error); // 记录捕获的错误
+                resultDiv.textContent = 'Error occurred while processing the image.';
+                resultDiv.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>
