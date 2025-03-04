@@ -1,8 +1,8 @@
-从项目的文件结构和代码内容来看，这个基于Django框架的项目主要用途是构建一个简单的网页应用，可能是一个在线商店或者产品展示类的网站，以下是具体分析：
+這是一個基於Django框架的網頁應用：
 
-### 1. 前端页面展示
+### 1. 前端頁面展示
 
-- **HTML模板**：在`cpanel_django/templates/index.html`文件中，有关于页面布局的代码，包括顶部栏、产品卡片、侧边栏（分类侧边栏和购物车侧边栏）等。这些代码定义了页面的基本结构和样式，例如产品的图片、名称、价格展示以及购物车图标的显示等。
+- **HTML模板**：在`cpanel_django/templates/index.html`文件中，有關於頁面佈局的代碼，包括頂部欄、產品卡片、側邊欄（分類側邊欄和購物車側邊欄）等。這些代碼定義了頁面的基本結構和樣式，例如產品的圖片、名稱、價格展示以及購物車圖標的顯示等。
   
   ```html
   <!-- Product Card -->
@@ -17,17 +17,20 @@
   </div>
   </div>
   ```
-- **CSS样式**：`cpanel_django/static/style.css`和`cpanel_django/static/css/bootstrap.min.css`文件定义了页面的样式，如字体、颜色、布局等，使得页面更加美观和易于阅读。
+
+- **CSS樣式**：`cpanel_django/static/style.css`和`cpanel_django/static/css/bootstrap.min.css`文件定義了頁面的樣式，如字體、顏色、布局等，使得頁面更加美觀和易於閱讀。
   
-  ### 2. 后端逻辑处理
-- **视图函数**：在`cpanel_django/appfiles/views.py`文件中，`home`函数负责渲染`index.html`模板，将页面返回给用户。
+  ### 2. 後端邏輯處理
+
+- **視圖函數**：在`cpanel_django/appfiles/views.py`文件中，`home`函數負責渲染`index.html`模板，將頁面返回給用戶。
   
   ```python
   from django.shortcuts import render
   def home(request):
   return render(request, 'index.html')
   ```
-- **URL路由**：`cpanel_django/config/urls.py`文件配置了URL路由，将特定的URL路径映射到对应的视图函数。例如，`/djgo.test/`路径会调用`views.home`函数。
+
+- **URL路由**：`cpanel_django/config/urls.py`文件配置了URL路由，將特定的URL路徑映射到對應的視圖函數。例如，`/djgo.test/`路徑會調用`views.home`函數。
   
   ```python
   from django.contrib import admin
@@ -39,12 +42,13 @@
   ]
   ```
   
-  ### 3. 项目运行与部署
-- **运行脚本**：`cpanel_django/run.bat`文件是一个批处理脚本，用于在本地开发环境中启动Django开发服务器。
+  ### 3. 專案運行與部署
+
+- **運行腳本**：`cpanel_django/run.bat`文件是一個批處理腳本，用於在本地開發環境中啓動Django開發服務器。cpanel則是需要到Terminal`set DJANGO_LOCAL=True`
   
   ```batch
   set DJANGO_LOCAL=True
   python manage.py runserver
   ```
-- **WSGI配置**：`cpanel_django/config/wsgi.py`和`cpanel_django/passenger_wsgi.py`文件用于配置WSGI应用，方便项目在生产环境中部署。
-  综上所述，这个项目的主要用途是搭建一个具备产品展示和购物车功能的网页应用，用户可以浏览产品信息并将产品添加到购物车中。
+
+- **WSGI配置**：`cpanel_django/config/wsgi.py`和`cpanel_django/passenger_wsgi.py`文件用于配置WSGI應用，方便項目在生產環境中部署。
